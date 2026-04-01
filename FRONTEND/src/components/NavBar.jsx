@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const NavBar = () => {
     const [sideBar, setSideBar] = useState(false);
     return (
-        <div className='fixed top-0  w-full flex items-center justify-center gap-50 sm:gap-70 px-4 py-2 bg-transparent shadow-none'>
+        <div className='fixed top-0  w-full flex items-center justify-center max-sm:gap-50 sm:gap-70 px-4 py-2 bg-transparent shadow-none'>
             <img src={assets.logo} alt="Logo" className="h-10 sm:h-13" />
               <div className='hidden md:flex justify-start w-83 rounded-full bg-amber-500 items-center text-amber-50 '>
                 <NavLink to="/" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>Home</NavLink>
