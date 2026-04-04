@@ -6,6 +6,7 @@ import Recipes from '../pages/Recipes';
 import Favourite from '../pages/Favourite';
 import AboutPage from '../pages/AboutPage';
 const Router = () => {
+
     return (
         <div className="">
             <Routes>

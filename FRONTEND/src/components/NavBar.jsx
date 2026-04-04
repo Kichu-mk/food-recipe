@@ -13,7 +13,7 @@ const NavBar = () => {
                 <NavLink to="/about" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>About</NavLink>
               </div>
             <div className='hidden md:flex items-center'>
-                <NavLink to="/login" className='px-4 py-2 bg-amber-500 rounded-full hover:bg-amber-700 text-amber-50 hover:text-amber-200'>Login</NavLink>
+                <NavLink to="/login" className='px-4 py-2 bg-amber-500 rounded-full hover:bg-[#f6836b] text-amber-50 hover:text-yellow-50'>Login</NavLink>
             </div>
     
             <button
