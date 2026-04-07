@@ -5,6 +5,8 @@ import LoginPage from '../pages/LoginPage';
 import Recipes from '../pages/Recipes';
 import Favourite from '../pages/Favourite';
 import AboutPage from '../pages/AboutPage';
+import Recipe from '../pages/Recipe';
+import AddRecipe from '../pages/AddRecipe';
 const Router = () => {
 
     return (
@@ -15,6 +17,8 @@ const Router = () => {
                 <Route path="/recipes" element={<Recipes />} />
                 <Route path="/favourite" element={<Favourite />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/recipes/:id" element={<Recipe />} />
+                <Route path="/recipes/new" element={<AddRecipe />} />
             </Routes>
         </div>
     );

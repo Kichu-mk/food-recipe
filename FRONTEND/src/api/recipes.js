@@ -4,10 +4,10 @@ export async function getRecipes() {
     return data;
 }
 
-export async function createRecipe(title, content) {
+export async function createRecipe(title, ingredients, instructions, time) {
     const res = await fetch("http://localhost:5000/recipe" , {
             method : "POST", 
-            body : JSON.stringify({title, content}),
+            body : JSON.stringify({title, ingredients, instructions, time}),
             headers : {
               "content-Type" : "application/json" ,
     

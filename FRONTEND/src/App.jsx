@@ -10,7 +10,7 @@ const App = () => {
   return (
     <>
       {!hideNavBar && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center items-center">
           <NavBar />
         </div>
       )}
