@@ -5,9 +5,12 @@ const app = express();
 const connectDB = require("./config/connectionDB");
 const PORT = process.env.PORT || 3000;
 
+
 app.use(cors());
 app.use(express.json());
-
+// Serve static images
+app.use('/images', express.static('public/images'));
+app.use("/", require('./routes/user'));
 app.use("/recipe", require('./routes/recipe'));
 connectDB();
 

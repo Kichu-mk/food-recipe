@@ -4,16 +4,18 @@ export async function getRecipes() {
     return data;
 }
 
-export async function createRecipe(title, ingredients, instructions, time) {
-    const res = await fetch("http://localhost:5000/recipe" , {
-            method : "POST", 
-            body : JSON.stringify({title, ingredients, instructions, time}),
-            headers : {
-              "content-Type" : "application/json" ,
-    
-            }
-        });
-        return res;
+export async function createRecipe(title, ingredients, instructions, time, file) {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('ingredients', ingredients.join('\n'));
+    formData.append('instructions', instructions.join('\n'));
+    formData.append('time', time);
+    if (file) formData.append('file', file);
+    const res = await fetch("http://localhost:5000/recipe", {
+        method: "POST",
+        body: formData
+    });
+    return res;
 }
 
 export async function getRecipe(id) {

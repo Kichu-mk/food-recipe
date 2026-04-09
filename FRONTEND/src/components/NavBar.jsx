@@ -1,43 +1,220 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import assets from "../assets/assets";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 const NavBar = () => {
-    const [sideBar, setSideBar] = useState(false);
-    return (
-        <div className='fixed top-0  max-sm:w-full sm:w-[75%] max-sm:flex  max-sm:justify-center max-sm:gap-40 sm:grid sm:grid-cols-3 items-center text-center sm:gap-4 px-4 py-2 bg-transparent shadow-none'>
-            <div className=''>
-                <img src={assets.logo} alt="Logo" className="h-10 sm:h-13 " />
-            </div>
-              <div className='hidden md:flex  justify-center w-83 rounded-full bg-amber-500 items-center text-amber-50'>
-                <NavLink to="/" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>Home</NavLink>
-                <NavLink to="/recipes" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>Recipes</NavLink>
-                <NavLink to="/favourite" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>Favourite</NavLink>
-                <NavLink to="/about" className='px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full'>About</NavLink>
-              </div>
-            <div className='hidden md:flex items-center justify-end'>
-                <NavLink to="/login" className='px-4 py-2 bg-amber-500 rounded-full hover:bg-[#f6836b] text-amber-50 hover:text-yellow-50'>Login</NavLink>
-            </div>
-    
-            <button
-                className="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none"
-                onClick={() => setSideBar(!sideBar)}
-                aria-label="Toggle menu"
+  const [sideBar, setSideBar] = useState(false);
+  let token = localStorage.getItem("token") || null;
+  let user = JSON.parse(localStorage.getItem("user")) || null;
+  const [isLogin, setIsLogin] = useState(token ? false : true);
+
+  useEffect(() => {
+    setIsLogin(token ? false : true);
+  }, [token]);
+
+  const checkLogin = () => {
+    if (token) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setIsLogin(true);
+      window.location.reload();
+    } else {
+      setIsLogin(true);
+    }
+  };
+
+  return (
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur shadow-sm">
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="shrink-0 flex items-center">
+            <img src={assets.logo} alt="Logo" className="h-10 sm:h-12" />
+          </div>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex flex-1 items-center justify-center gap-2 rounded-full bg-transparent text-amber-600 py-2 px-4 ">
+            <NavLink
+              to="/"
+              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
             >
-                <span className={`block w-6 h-0.5 bg-black mb-1 transition-all duration-300 ${sideBar ? 'rotate-45 translate-y-2' : ''}`}></span>
-                <span className={`block w-6 h-0.5 bg-black mb-1 transition-all duration-300 ${sideBar ? 'opacity-0' : ''}`}></span>
-                <span className={`block w-6 h-0.5 bg-black transition-all duration-300 ${sideBar ? '-rotate-45 -translate-y-2' : ''}`}></span>
-            </button>
-            {sideBar && (
-                <div className="absolute top-16 right-0 w-[70%] bg-amber-300 flex flex-col items-center py-4 shadow-lg md:hidden animate-fade-in z-50">
-                    <NavLink to="/" className='px-4 py-2 hover:bg-amber-400 rounded-full w-full text-center' onClick={() => setSideBar(false)}>Home</NavLink>
-                    <NavLink to="/recipes" className='px-4 py-2 hover:bg-amber-400 rounded-full w-full text-center' onClick={() => setSideBar(false)}>Recipes</NavLink>
-                    <NavLink to="/favourite" className='px-4 py-2 hover:bg-amber-400 rounded-full w-full text-center' onClick={() => setSideBar(false)}>Favourite</NavLink>
-                    <NavLink to="/about" className='px-4 py-2 hover:bg-amber-400 rounded-full w-full text-center' onClick={() => setSideBar(false)}>About</NavLink>
-                    <NavLink to="/login" className='px-4 py-2 bg-amber-300 rounded-full hover:bg-amber-400 w-full text-center mt-2' onClick={() => setSideBar(false)}>Login</NavLink>
-                </div>
+              Home
+            </NavLink>
+            <NavLink
+              to="/recipes"
+              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+            >
+              Recipes
+            </NavLink>
+            {token && (
+              <NavLink
+                to="/favourite"
+                className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+              >
+                Favourite
+              </NavLink>
             )}
+            <NavLink
+              to="/about"
+              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+            >
+              About
+            </NavLink>
+          </div>
+          {/* Mobile Hamburger */}
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setSideBar(!sideBar)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-amber-700 hover:bg-amber-100 focus:outline-none"
+              aria-controls="mobile-menu"
+              aria-expanded={sideBar}
+            >
+              <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                {sideBar ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
-    );
-}
+      </div>
+      {/* Mobile Menu */}
+      {sideBar && (
+        <div className="md:hidden bg-white/95 shadow-lg border-t border-amber-100">
+          <div className="flex flex-col items-center py-4 gap-2">
+            <NavLink
+              to="/"
+              className="w-full px-4 py-2 text-center hover:bg-amber-100 rounded"
+              onClick={() => setSideBar(false)}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/recipes"
+              className="w-full px-4 py-2 text-center hover:bg-amber-100 rounded"
+              onClick={() => setSideBar(false)}
+            >
+              Recipes
+            </NavLink>
+            {token && (
+              <NavLink
+                to="/favourite"
+                className="w-full px-4 py-2 text-center hover:bg-amber-100 rounded"
+                onClick={() => setSideBar(false)}
+              >
+                Favourite
+              </NavLink>
+            )}
+            <NavLink
+              to="/about"
+              className="w-full px-4 py-2 text-center hover:bg-amber-100 rounded"
+              onClick={() => setSideBar(false)}
+            >
+              About
+            </NavLink>
+          </div>
+        </div>
+      )}
+      {/* Desktop Right Side (Login/Logout) */}
+      <div className="hidden md:flex items-center justify-end absolute right-4 top-0 h-16">
+        {token && (
+          <div className="relative group px-4 py-2 text-amber-700 font-semibold">
+            <button className="group flex items-center justify-center border rounded-lg px-2 py-1 font-medium text-gray-700 hover:text-amber-700 focus:outline-none">
+              <img src={assets.userimg} alt="User" className="group-hover:bg-amber-500 w-6 h-6 rounded-full inline-block mr-2" />
+              {user.name}
+            </button>
+            <div className="absolute right-0 mt-1 w-40 bg-amber-200 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+              <ul className="text-sm text-gray-700 ">
+                <li className="px-4 py-2 hover:bg-amber-500 hover:rounded-lg hover:text-amber-50 cursor-pointer">
+                  My Recipes
+                </li>
+                <li className="px-4 py-2 hover:bg-amber-500 hover:rounded-lg hover:text-amber-50 cursor-pointer">
+                  <NavLink to="/recipes/new">Add Recipe</NavLink>
+                </li>
+                <li
+                  onClick={checkLogin}
+                  className="px-4 py-2 hover:bg-amber-500 hover:rounded-lg hover:text-amber-50 text-red-500 cursor-pointer"
+                >
+                  Logout
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
+        {!token && (
+          <NavLink
+            to="/login"
+            className="px-4 py-2 bg-amber-500 rounded-full hover:bg-[#f6836b] text-amber-50 hover:text-yellow-50"
+            onClick={checkLogin}
+          >
+            {isLogin ? "Login" : "Logout"}
+        </NavLink>)}
+      </div>
+
+      
+      {sideBar && (
+        <div className="absolute top-16 right-0 w-[70%] bg-amber-500 flex flex-col items-center py-4 shadow-lg md:hidden animate-fade-in z-50">
+          {token && (
+          <><div className="relative group px-4 py-2 text-amber-700 font-semibold">
+              <button className="group flex items-center justify-center border rounded-lg px-2 py-1 font-medium text-gray-700 hover:text-amber-700 focus:outline-none">
+                <img src={assets.userimg} alt="User" className="group-hover:bg-amber-500 w-6 h-6 rounded-full inline-block mr-2" />
+                {user.name}
+              </button>
+            </div><NavLink
+              to="/"
+              className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+              onClick={() => setSideBar(false)}
+            >
+                My Recipe
+            </NavLink>
+            <NavLink
+            to="/recipes/new"
+            className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+            onClick={() => setSideBar(false)}
+          >
+            Add Recipe
+          </NavLink></>
+        )}
+          <NavLink
+            to="/"
+            className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+            onClick={() => setSideBar(false)}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/recipes"
+            className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+            onClick={() => setSideBar(false)}
+          >
+            Recipes
+          </NavLink>
+          <NavLink
+            to="/favourite"
+            className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+            onClick={() => setSideBar(false)}
+          >
+            Favourite
+          </NavLink>
+          <NavLink
+            to="/about"
+            className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
+            onClick={() => setSideBar(false)}
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/login"
+            className="px-4 py-2 bg-amber-500 rounded-full w-full text-center mt-2"
+            onClick={checkLogin}
+          >
+            {isLogin ? "Login" : "Logout"}
+          </NavLink>
+        </div>
+      )}
+    </nav>
+  );
+};
 
 export default NavBar;

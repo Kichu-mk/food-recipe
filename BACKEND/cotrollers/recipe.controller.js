@@ -1,4 +1,17 @@
 const Recipes = require('../models/recipe.model');
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images')
+  },
+  filename: function (req, file, cb) {
+    const filename = Date.now() + '-' + file.fieldname
+    cb(null, filename)
+  }
+})
+
+const upload = multer({ storage: storage })
 
 const getRecipes = async(req, res) => {
     const recipes = await Recipes.find();
@@ -11,24 +24,51 @@ const getRecipe = async (req, res) => {
 }
 
 const createRecipe = async (req, res) => {
-    const { title, ingredients, instructions, time } =req.body;
+    let { title, ingredients, instructions, time } = req.body;
+    let image = req.file ? req.file.filename : undefined;
+
+    // Ensure ingredients and instructions are arrays
+    if (typeof ingredients === "string") {
+        ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
+    }
+    if (typeof instructions === "string") {
+        instructions = instructions.split('\n').filter(line => line.trim() !== '');
+    }
 
     if (!title || !ingredients || !instructions) {
         return res.status(400).json({ message: 'Please provide all required fields' });
     }
     const newRecipe = await Recipes.create({
-        title, ingredients, instructions, time
-    })
+        title,
+        ingredients,
+        instructions,
+        time,
+        image
+    });
     return res.json({ message: "Recipe created", newRecipe });
 }
 
 const updateRecipe = async(req, res) => {
-    const { title, ingredients, instructions, time } =req.body;
+    let { title, ingredients, instructions, time } = req.body;
+
+    // Ensure ingredients and instructions are arrays
+    if (typeof ingredients === "string") {
+        ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
+    }
+    if (typeof instructions === "string") {
+        instructions = instructions.split('\n').filter(line => line.trim() !== '');
+    }
+
     let recipe = await Recipes.findById(req.params.id);
     try{
         if(recipe) {
-        await Recipes.findByIdAndUpdate(req.params.id,req.body, { new:true})
-        res.json({title, ingredients, instructions, time}) 
+            await Recipes.findByIdAndUpdate(req.params.id, {
+                title,
+                ingredients,
+                instructions,
+                time
+            }, { new:true });
+            res.json({title, ingredients, instructions, time});
         }   
     }
     catch (error) {
@@ -49,5 +89,6 @@ module.exports = {
     getRecipe,
     createRecipe,
     updateRecipe,
-    deleteRecipe
+    deleteRecipe,
+    upload
 }

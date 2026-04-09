@@ -25,34 +25,38 @@ function Recipe() {
   }
 
   return (
-    <div className="min-h-screen mt-20 sm:mt-25">
-       <AnimatedBackground />
-      <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-6xl">
-         <div className="flex max-sm:flex-col sm:flex-row items-center gap-3">
-           <div className="flex flex-col justify-center ">
-              <h1 className="text-6xl font-bold mb-4 text-amber-700">{recipe.title}</h1>
-              <p className="text-lg text-gray-700 mb-6 w-full  flex sm:justify-end sm:pr-7">Time: {recipe.time} mins</p>
-           </div>
-           <div className="w-full md:w-1/2">
-              <img src={assets.food1} alt="" className="w-full h-full object-cover rounded-2xl" />
-           </div>
-         </div>
-         <div className="mt-8">
-           <h2 className="text-3xl font-bold mb-4 text-amber-700">Ingredients</h2>
-           <ul className="list-disc pl-5 text-lg text-gray-700">
-             {recipe.ingredients.map((ingredient, index) => (
-               <li key={index} className="mb-2">{ingredient}</li>
-             ))}
-           </ul>
-         </div>
-         <div className="mt-5">
-            <h2 className="text-3xl font-bold mb-4 text-amber-700">Instructions</h2>
-            <ol className="list-decimal pl-5 text-lg text-gray-700">
-              {recipe.instructions.map((instruction, index) => (
-                <li key={index} className="mb-2">{instruction}</li>
-              ))}
-            </ol> 
-         </div>
+    <div className="min-h-screen mt-20 sm:mt-24">
+      <AnimatedBackground />
+      <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl">
+        <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
+          <div className="flex flex-col justify-center w-full sm:w-1/2">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-700 text-center sm:text-left">{recipe.title}</h1>
+            <p className="text-base sm:text-lg text-gray-700 mb-6 w-full flex sm:justify-end sm:pr-7">Time: {recipe.time} mins</p>
+          </div>
+          <div className="w-full sm:w-1/2">
+            <img
+              src={recipe.image ? `http://localhost:5000/images/${recipe.image}` : assets.food1}
+              alt="Recipe Image"
+              className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-2xl"
+            />
+          </div>
+        </div>
+        <div className="mt-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Ingredients</h2>
+          <ul className="list-disc pl-5 text-base sm:text-lg text-gray-700">
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index} className="mb-2">{ingredient}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-5">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Instructions</h2>
+          <ol className="list-decimal pl-5 text-base sm:text-lg text-gray-700">
+            {recipe.instructions.map((instruction, index) => (
+              <li key={index} className="mb-2">{instruction}</li>
+            ))}
+          </ol>
+        </div>
       </div>
     </div>
   );
