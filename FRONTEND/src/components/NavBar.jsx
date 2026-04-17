@@ -24,7 +24,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur shadow-sm">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur shadow-sm rounded-b-4xl">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -127,7 +127,7 @@ const NavBar = () => {
             <div className="absolute right-0 mt-1 w-40 bg-amber-200 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
               <ul className="text-sm text-gray-700 ">
                 <li className="px-4 py-2 hover:bg-amber-500 hover:rounded-lg hover:text-amber-50 cursor-pointer">
-                  My Recipes
+                  <NavLink to="/my-recipes">My Recipe</NavLink>
                 </li>
                 <li className="px-4 py-2 hover:bg-amber-500 hover:rounded-lg hover:text-amber-50 cursor-pointer">
                   <NavLink to="/recipes/new">Add Recipe</NavLink>
@@ -162,7 +162,7 @@ const NavBar = () => {
                 {user.name}
               </button>
             </div><NavLink
-              to="/"
+              to="/my-recipes"
               className="px-4 py-2 hover:bg-amber-500 rounded-full w-full text-center"
               onClick={() => setSideBar(false)}
             >

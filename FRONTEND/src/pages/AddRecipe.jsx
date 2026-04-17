@@ -14,6 +14,7 @@ const AddRecipe = () => {
         const file = e.target[4].files[0];
         await createRecipe(title, ingredients, instructions, time, file);
         navigate('/recipes');
+        window.alert("Recipe created successfully!");
     }
     return (
         <div>

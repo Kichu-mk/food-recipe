@@ -1,5 +1,5 @@
-const Recipes = require('../models/recipe.model');
-const multer  = require('multer')
+const Recipe = require('../models/recipe.model');
+const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -14,74 +14,88 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const getRecipes = async(req, res) => {
-    const recipes = await Recipes.find();
-    return res.json(recipes);
+    try {
+        const recipes = await Recipe.find();
+        return res.json(recipes);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching recipes', error });
+    }
 }
 
 const getRecipe = async (req, res) => {
-    const recipe = await Recipes.findById(req.params.id);
-    return res.json(recipe);
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+        }
+        return res.json(recipe);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error fetching recipe', error });
+    }
 }
 
 const createRecipe = async (req, res) => {
-    let { title, ingredients, instructions, time } = req.body;
-    let image = req.file ? req.file.filename : undefined;
+    try {
+        let { title, ingredients, instructions, time } = req.body;
+        let image = req.file ? req.file.filename : undefined;
 
-    // Ensure ingredients and instructions are arrays
-    if (typeof ingredients === "string") {
-        ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
-    }
-    if (typeof instructions === "string") {
-        instructions = instructions.split('\n').filter(line => line.trim() !== '');
-    }
+        // Ensure ingredients and instructions are arrays
+        if (typeof ingredients === "string") {
+            ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
+        }
+        if (typeof instructions === "string") {
+            instructions = instructions.split('\n').filter(line => line.trim() !== '');
+        }
 
-    if (!title || !ingredients || !instructions) {
-        return res.status(400).json({ message: 'Please provide all required fields' });
+        const recipe = await Recipe.create({
+            title,
+            ingredients,
+            instructions,
+            time,
+            image,
+            userId: req.userId
+        });
+
+        return res.status(201).json({ message: 'Recipe created successfully', recipe });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error creating recipe', error });
     }
-    const newRecipe = await Recipes.create({
-        title,
-        ingredients,
-        instructions,
-        time,
-        image
-    });
-    return res.json({ message: "Recipe created", newRecipe });
 }
 
-const updateRecipe = async(req, res) => {
-    let { title, ingredients, instructions, time } = req.body;
+const updateRecipe = async (req, res) => {
+    try {
+        let { title, ingredients, instructions, time } = req.body;
+        
+        if (typeof ingredients === "string") {
+            ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
+        }
+        if (typeof instructions === "string") {
+            instructions = instructions.split('\n').filter(line => line.trim() !== '');
+        }
 
-    // Ensure ingredients and instructions are arrays
-    if (typeof ingredients === "string") {
-        ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
-    }
-    if (typeof instructions === "string") {
-        instructions = instructions.split('\n').filter(line => line.trim() !== '');
-    }
+        const recipe = await Recipe.findByIdAndUpdate(req.params.id, {
+            title,
+            ingredients,
+            instructions,
+            time
+        }, { new: true });
 
-    let recipe = await Recipes.findById(req.params.id);
-    try{
-        if(recipe) {
-            await Recipes.findByIdAndUpdate(req.params.id, {
-                title,
-                ingredients,
-                instructions,
-                time
-            }, { new:true });
-            res.json({title, ingredients, instructions, time});
-        }   
-    }
-    catch (error) {
-        res.status(500).json({ message: 'Error updating recipe', error });
+        return res.json({ message: 'Recipe updated successfully', recipe });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error updating recipe', error });
     }
 }
 
 const deleteRecipe = async (req, res) => {
-    const recipe = await Recipes.findByIdAndDelete(req.params.id);
-    if (!recipe) {
-        return res.status(404).json({ message: 'Recipe not found' });
+    try {
+        const recipe = await Recipe.findByIdAndDelete(req.params.id);
+        if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found' });
+        }
+        return res.json({ message: 'Recipe deleted successfully!' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error deleting recipe', error });
     }
-    return res.json({ message: 'Recipe deleted successfully!' });
 };
 
 module.exports = {

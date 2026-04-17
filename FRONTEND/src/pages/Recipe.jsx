@@ -3,18 +3,32 @@ import { useParams } from "react-router-dom";
 import { getRecipe } from "../api/recipes";
 import assets from "../assets/assets";
 import AnimatedBackground from "../components/AnimeBg";
+import { getUser } from "../api/user";
 
 function Recipe() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
-  console.log("id:",id);
+  const [owner, setOwner] = useState(null);
   
   const load = async () => {
       const data = await getRecipe(id);
-      console.log("data:",data);
       setLoading(false);
       setRecipe(data);
+      const user = await getUser(data.userId);
+      console.log(user);
+      if (user.error) {
+        setOwner({ name: "Unknown" });
+        return;
+      } 
+      else if (!user) {
+        setOwner({ name: "Unknown" });
+        return;
+      }
+      else if (user.name) {
+        setOwner(user);
+        return;
+      }
     };
     useEffect(() => {
       load();
@@ -31,7 +45,14 @@ function Recipe() {
         <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
           <div className="flex flex-col justify-center w-full sm:w-1/2">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-700 text-center sm:text-left">{recipe.title}</h1>
-            <p className="text-base sm:text-lg text-gray-700 mb-6 w-full flex sm:justify-end sm:pr-7">Time: {recipe.time} mins</p>
+            <div className="flex justify-between items-center ">
+              <p className="text-base sm:text-lg text-gray-700 mb-6">Time: {recipe.time} mins</p>
+              {owner && (
+                <p className="text-base sm:text-lg text-gray-700 mb-6">
+                 Creator: {owner.name}
+                </p>
+              )}
+            </div>
           </div>
           <div className="w-full sm:w-1/2">
             <img
@@ -41,7 +62,8 @@ function Recipe() {
             />
           </div>
         </div>
-        <div className="mt-8">
+        <div className="flex  max-sm:flex-col sm:items-start sm:justify-center sm:gap-100">
+          <div className="mt-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Ingredients</h2>
           <ul className="list-disc pl-5 text-base sm:text-lg text-gray-700">
             {recipe.ingredients.map((ingredient, index) => (
@@ -49,7 +71,7 @@ function Recipe() {
             ))}
           </ul>
         </div>
-        <div className="mt-5">
+        <div className="mt-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Instructions</h2>
           <ol className="list-decimal pl-5 text-base sm:text-lg text-gray-700">
             {recipe.instructions.map((instruction, index) => (
@@ -57,6 +79,7 @@ function Recipe() {
             ))}
           </ol>
         </div>
+      </div>
       </div>
     </div>
   );
