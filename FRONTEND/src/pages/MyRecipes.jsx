@@ -5,7 +5,8 @@ import { deleteRecipe, getRecipes } from "../api/recipes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import AvgRating from '../components/avgRating';
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
+import Loading from '../components/Loading';
 
 
 
@@ -42,7 +43,9 @@ const MyRecipes = () => {
         load();
       }, []);
     
-      if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+      if (loading) return <div className="flex justify-center items-center h-screen">
+        <Loading text="Loading your recipes..." />
+      </div>;
     
 
     return (

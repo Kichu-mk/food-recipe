@@ -6,6 +6,9 @@ import food1 from "./food-1.jpg"
 import userimg from "./circle-user.png"
 import addIcon from "./addIcon.png"
 import removeIcon from "./removeIcon.png"
+import login from "./login.png"
+import signup from "./signup.svg"
+import loginbg from "./loginbg.jpg"
 
 const assets = {
     logo,
@@ -15,7 +18,11 @@ const assets = {
     food1,
     userimg,
     addIcon,
-    removeIcon  
+    removeIcon ,
+    login,
+    signup,
+    loginbg
 }
+
 
 export default assets;

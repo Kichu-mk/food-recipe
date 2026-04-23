@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import assets from "../assets/assets";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 const NavBar = () => {
   const [sideBar, setSideBar] = useState(false);
   let token = localStorage.getItem("token") || null;
@@ -24,15 +25,27 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur shadow-sm rounded-b-4xl">
+    <motion.nav
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+      className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur shadow-sm rounded-b-4xl"
+    >
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="shrink-0 flex items-center">
+          <motion.div 
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.4 }}
+          className="shrink-0 flex items-center">
             <img src={assets.logo} alt="Logo" className="h-10 sm:h-12" />
-          </div>
+          </motion.div>
           {/* Desktop Menu */}
-          <div className="hidden md:flex flex-1 items-center justify-center gap-2 rounded-full bg-transparent text-amber-600 py-2 px-4 ">
+          <motion.div
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.6 }}
+            className="hidden md:flex flex-1 items-center justify-center gap-2 rounded-full bg-transparent text-amber-600 py-2 px-4 ">
             <NavLink
               to="/"
               className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
@@ -59,10 +72,13 @@ const NavBar = () => {
             >
               About
             </NavLink>
-          </div>
-          {/* Mobile Hamburger */}
+          </motion.div>
+
           <div className="flex md:hidden">
-            <button
+            <motion.button
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.6 }}
               onClick={() => setSideBar(!sideBar)}
               className="inline-flex items-center justify-center p-2 rounded-md text-amber-700 hover:bg-amber-100 focus:outline-none"
               aria-controls="mobile-menu"
@@ -75,11 +91,11 @@ const NavBar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
-      {/* Mobile Menu */}
+
       {sideBar && (
         <div className="md:hidden bg-white/95 shadow-lg border-t border-amber-100">
           <div className="flex flex-col items-center py-4 gap-2">
@@ -116,10 +132,14 @@ const NavBar = () => {
           </div>
         </div>
       )}
-      {/* Desktop Right Side (Login/Logout) */}
+
       <div className="hidden md:flex items-center justify-end absolute right-4 top-0 h-16">
         {token && (
-          <div className="relative group px-4 py-2 text-amber-700 font-semibold">
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.6 }}
+            className="relative group px-4 py-2 text-amber-700 font-semibold">
             <button className="group flex items-center justify-center border rounded-lg px-2 py-1 font-medium text-gray-700 hover:text-amber-700 focus:outline-none">
               <img src={assets.userimg} alt="User" className="group-hover:bg-amber-500 w-6 h-6 rounded-full inline-block mr-2" />
               {user.name}
@@ -140,16 +160,19 @@ const NavBar = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </motion.div>
         )}
         {!token && (
-          <NavLink
+          <motion.NavLink
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.6 }}
             to="/login"
             className="px-4 py-2 bg-amber-500 rounded-full hover:bg-[#f6836b] text-amber-50 hover:text-yellow-50"
             onClick={checkLogin}
           >
             {isLogin ? "Login" : "Logout"}
-        </NavLink>)}
+        </motion.NavLink>)}
       </div>
 
       
@@ -213,7 +236,7 @@ const NavBar = () => {
           </NavLink>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 

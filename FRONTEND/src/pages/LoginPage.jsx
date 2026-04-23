@@ -1,7 +1,12 @@
 import { useState } from "react";
-import React from 'react';
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import React from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import axios from "axios";
+import assets from "../assets/assets";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
+
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,44 +14,53 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleOnSubmit = async(e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
     let endpoint = isLogin ? "login" : "signup";
     try {
-      const res = await axios.post(`http://localhost:5000/${endpoint}`, { name, email, password });
-      
+      const res = await axios.post(`http://localhost:5000/${endpoint}`, {
+        name,
+        email,
+        password,
+      });
+
       localStorage.setItem("token", res.data.token);
-      
-      // Ensure user object has favorites array
+
       const userData = res.data.user;
       if (!userData.favorites) {
         userData.favorites = [];
       }
       localStorage.setItem("user", JSON.stringify(userData));
-      
-      // Decode JWT to get user ID
       localStorage.setItem("userId", userData._id);
-      
-      window.location.href = "/";
+      toast.success(isLogin ? "Logged in successfully!" : "Account created successfully!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (data) {
       setError(data.response?.data?.message || "An error occurred");
+      toast.error("Failed to login");
     }
   };
 
   return (
-    <div className="flex max-sm:flex-col justify-start h-screen w-full bg-linear-to-r">
-      <DotLottieReact
-        src="https://lottie.host/8fa0dec9-c835-4375-a716-626289cfc34e/uvmzYm0jBx.lottie"
-        loop
-        autoplay
-        className="absolute top-1/2 max-sm:top-1/4 max-sm:left-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2  w-full"
-      />
-      <div className="absolute top-1/2 max-sm:top-3/5 max-sm:left-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl w-96 max-sm:w-90 p-8 transform transition duration-500 hover:scale-105">
-        <h2 className="text-2xl font-bold text-center mb-6">
+    <div className="flex max-sm:flex-col justify-center  items-center h-screen w-full bg-[url('/src/assets/loginbg.jpg')] bg-cover bg-center bg-no-repeat sm:gap-10">
+      <div className="absolute top-10 left-0 ">
+        <BackButton />
+      </div>
+      <div className="max-sm:w-full h-2/5 max-sm:h-50 flex justify-center items-center">
+        <img
+          src={assets.signup}
+          alt=""
+          className="w-full h-full object-contain"
+        />
+      </div>
+      <div className="h-1/2 bg-white shadow-2xl w-96 max-sm:w-90 p-8 rounded-lg flex flex-col justify-center items-center transition duration-500 hover:scale-105 ">
+        <img src={assets.logo} alt="Logo" className="w-40" />
+        <h2 className="text-2xl font-bold text-center mb-6 text-[#6c63ff]">
           {isLogin ? "Login" : "Sign Up"}
         </h2>
-
         <form className="space-y-4" onSubmit={handleOnSubmit}>
           {!isLogin && (
             <input
@@ -55,7 +69,7 @@ export default function LoginPage() {
               type="text"
               placeholder="Full Name"
               required
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff8b42] transition"
+              className="w-full p-2 text-gray-800 border border-gray-400 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#6c63ff] hover:scale-105 hover:border-[#6c63ff] transition"
             />
           )}
 
@@ -65,7 +79,7 @@ export default function LoginPage() {
             type="email"
             required
             placeholder="Email"
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff8b42] transition"
+            className="w-full p-2 text-gray-800 border border-gray-400 rounded-lg  focus:outline-none focus:ring-2 focus:ring-[#6c63ff] hover:scale-105 hover:border-[#6c63ff] transition"
           />
 
           <input
@@ -74,27 +88,28 @@ export default function LoginPage() {
             type="password"
             required
             placeholder="Password"
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ff8b42] transition"
+            className="w-full p-2 text-gray-800 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6c63ff] hover:scale-105 hover:border-[#6c63ff] transition"
           />
 
           <button
             type="submit"
-            className="w-full bg-[#ff8b42] text-white py-2 rounded-lg hover:bg-amber-600 transition duration-300"
+            className="w-full bg-[#6c63ff] text-white py-2 rounded-lg hover:bg-blue-800 transition duration-300 hover:scale-105 hover:border-[#6c63ff]"
           >
             {isLogin ? "Login" : "Create Account"}
           </button>
         </form>
-        { (error!="") && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
+        {error != "" && (
+          <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+        )}
         <br></br>
         <p
-          className="text-center mt-4 cursor-pointer text-sm text-gray-600 hover:text-[#ff8b42] transition"
+          className="text-center mt-4 cursor-pointer text-sm text-gray-600 hover:text-[#6c63ff] transition"
           onClick={() => setIsLogin(!isLogin)}
         >
           {isLogin
             ? "Don't have an account? Sign Up"
             : "Already have an account? Login"}
         </p>
-        
       </div>
     </div>
   );

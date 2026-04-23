@@ -2,6 +2,7 @@ import React from 'react';
 import AnimatedBackground from '../components/AnimeBg';
 import { useNavigate } from 'react-router-dom';
 import { createRecipe } from '../api/recipes';
+import toast from 'react-hot-toast';
 
 const AddRecipe = () => {
     const navigate = useNavigate();
@@ -13,8 +14,8 @@ const AddRecipe = () => {
         const instructions = e.target[3].value.split('\n');
         const file = e.target[4].files[0];
         await createRecipe(title, ingredients, instructions, time, file);
+        toast.success("Recipe added successfully!")
         navigate('/recipes');
-        window.alert("Recipe created successfully!");
     }
     return (
         <div>

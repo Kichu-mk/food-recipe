@@ -6,13 +6,14 @@ import AvgRating from "../components/avgRating";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import RecipeCard from "../components/RecipeCard";
+import Loading from "../components/Loading";
 
 const Recipes = () => {
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 8;
+  const recipesPerPage = 12;
   let token = localStorage.getItem("token") || null;
   
   
@@ -52,7 +53,9 @@ const Recipes = () => {
   const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
   const totalPages = Math.ceil(recipes.length / recipesPerPage);
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (loading) return <div className="flex justify-center items-center h-screen">
+    <Loading text="Loading recipes..." />
+  </div>;
 
   return (
     <div className="min-h-screen mt-20 flex flex-col items-center px-2 sm:px-6 lg:px-8">

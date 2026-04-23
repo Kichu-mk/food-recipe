@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getRecipe } from "../api/recipes";
+import { getRecipe, toggleFavourite } from "../api/recipes";
 import assets from "../assets/assets";
 import AnimatedBackground from "../components/AnimeBg";
 import { getUser } from "../api/user";
@@ -9,6 +9,9 @@ import AvgRating from "../components/avgRating";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { ChefHat } from "lucide-react";
+import Loading from "../components/Loading";
+import toast from "react-hot-toast";
+import BackButton from "../components/BackButton";
 
 
 function Recipe() {
@@ -16,6 +19,41 @@ function Recipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [owner, setOwner] = useState(null);
+  const token = localStorage.getItem("token") || null;
+  const [favourites, setFavourites] = useState([]);
+
+  const handleToggleFavorite = async (id) => {
+          if (!token) {
+            alert("Please login to add favorites");
+            return;
+          }
+      
+          try {
+            const response = await toggleFavourite(id);
+            
+            if (!response || response.error) {
+              console.error("Failed to toggle favorite");
+              return;
+            }
+              setFavourites(response.favorites || []);
+              let user = JSON.parse(localStorage.getItem("user"));
+              if (user) {
+                user.favorites = response.favorites || [];
+                  localStorage.setItem("user", JSON.stringify(user));
+              }
+          } catch (error) {
+            console.error("Error toggling favorite:", error);
+          }
+        };
+        useEffect(() => {
+          if (token) {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user) {
+              setFavourites(user.favorites || []);
+            }
+          }
+        }, [token]);
+  
   
   const load = async () => {
       const data = await getRecipe(id);
@@ -40,12 +78,15 @@ function Recipe() {
     }, []);
   
   if (loading) {
-    return <div className="flex justify-center items-center h-screen text-4xl font-bold text-amber-500">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen text-4xl font-bold text-amber-500">
+      <Loading text="Loading recipe details..." />
+    </div>;
   }
 
   return (
     <div className="min-h-screen mt-20 sm:mt-24">
       <AnimatedBackground />
+      <BackButton />
       <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl shadow-lg rounded-2xl mb-10 bg-transparent relative z-10">
         <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
           <div className="flex flex-col justify-center w-full sm:w-1/2 shadow-lg p-6 rounded-2xl bg-amber-50">
@@ -54,12 +95,30 @@ function Recipe() {
               <div className="text-base sm:text-lg text-gray-700 mb-6 flex items-center gap-1">
                 <FontAwesomeIcon icon={faClock} className="text-amber-700" />
                  {recipe.time} mins</div>
-              {owner && (
+              <div className="text-base sm:text-lg text-gray-700 flex items-center gap-1">
+                {owner && (
                 <div className="text-base sm:text-lg text-gray-700 mb-8 flex items-end gap-1 justify-end">
                  <ChefHat size={30} className="text-amber-700" /> 
                  {owner.name}
                 </div>
               )}
+              {token && (
+              <button
+                onClick={() => handleToggleFavorite(recipe._id)}
+                className="p-2 hover:scale-110 transition-transform mb-8"
+              >
+                <img
+                  src={
+                    favourites.includes(recipe._id)
+                      ? assets.addIcon
+                      : assets.removeIcon
+                  }
+                  alt="Favourite Icon"
+                  className="w-10 h-10 object-cover"
+                />
+              </button>
+            )}
+            </div>
             </div>
             <div className="flex justify-center items-center">
               <div className="ml-2 flex items-center justify-between w-full ">

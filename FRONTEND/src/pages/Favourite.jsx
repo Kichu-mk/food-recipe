@@ -5,6 +5,7 @@ import assets from '../assets/assets';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import RecipeCard from '../components/RecipeCard';
+import Loading from '../components/Loading';
 
 
 const Favourite = () => {
@@ -77,7 +78,7 @@ const Favourite = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <p className="text-xl text-gray-500">Loading your favorites...</p>
+                <Loading text="Loading your favorite recipes..." />
             </div>
         );
     }

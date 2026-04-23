@@ -61,7 +61,7 @@ const RatingComponent = ({ recipeId }) => {
             type="button"
             onClick={() => handleRating(star)}
             className={`text-3xl ${
-                star <= rating ? "text-amber-500" : "text-amber-50"        
+                star <= rating ? "text-amber-500" : "text-gray-300"        
             }`}
           >
             ★

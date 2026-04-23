@@ -11,6 +11,7 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
     let token = localStorage.getItem("token") || null;
     const [favourites, setFavourites] = React.useState([]);
 
+
     const handleToggleFavorite = async (id) => {
         if (!token) {
           alert("Please login to add favorites");
@@ -24,9 +25,7 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
             console.error("Failed to toggle favorite");
             return;
           }
-            // Update favorites state   
             setFavourites(response.favorites || []);
-            // Update user data in localStorage
             let user = JSON.parse(localStorage.getItem("user"));
             if (user) {
               user.favorites = response.favorites || [];
@@ -72,12 +71,12 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
             </div>
           </div>
           <div className="flex items-center gap-2 ">
-            <Link
+          <Link
               to={`/recipes/${recipeId}`}
-              className="bg-amber-500 text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors w-full text-center text-sm"
+              className="bg-amber-500 w-full text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center"
             >
-              View Recipe
-            </Link>
+              View Details
+          </Link>
             {token && (
               <button
                 onClick={() => handleToggleFavorite(recipeId)}
