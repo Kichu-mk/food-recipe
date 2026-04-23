@@ -2,6 +2,10 @@ import React from 'react';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteRecipe, getRecipes } from "../api/recipes";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import AvgRating from '../components/avgRating';
+import { Trash, Trash2 } from "lucide-react";
 
 
 
@@ -67,9 +71,14 @@ const MyRecipes = () => {
                             )}
                             <div className="p-4">
                                 <h2 className="text-lg font-bold text-gray-800 mb-2">{recipe.title}</h2>
-                                <p className="text-sm text-gray-600 mb-3">
-                                    <strong>Time:</strong> {recipe.time}
+                                <div className="flex items-center">
+                                    <p className="text-sm text-gray-600 mb-3">
+                                    <FontAwesomeIcon icon={faClock} className="text-amber-700" /> {recipe.time} mins
                                 </p>
+                                <div className="flex items-center mb-3 ml-auto">
+                                    <AvgRating id={recipe._id} />
+                                </div>
+                                </div>
                                 <div className="flex items-center gap-2 w-full">
                                     <Link
                                         to={`/recipes/${recipe._id}`}
@@ -79,8 +88,8 @@ const MyRecipes = () => {
                                     </Link>
                                     <button 
                                         onClick={() => handleDeleteRecipe(recipe._id)}
-                                        className='bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition-colors w-full text-center text-sm'>
-                                        Delete
+                                        className='p-2 hover:scale-110 transition-transform'>
+                                        <Trash2 size={25} className="text-red-500 cursor-pointer" />
                                     </button>
                                 </div>
                             </div>

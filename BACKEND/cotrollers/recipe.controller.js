@@ -98,11 +98,31 @@ const deleteRecipe = async (req, res) => {
     }
 };
 
+const recipeRating = async (req, res) => {
+    try {
+        let { rating, userId } = req.body;
+        console.log(rating);
+        console.log(userId);
+        const recipe = await Recipe.findById(req.params.id);
+        const existingRating = recipe.ratings.find(r => r.userId.toString() === userId);
+        if (existingRating) {
+            existingRating.rating = rating;
+        } else {
+            recipe.ratings.push({ userId, rating });
+        }
+        await recipe.save();
+        res.json({ message: 'Rating added successfully!' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Error adding rating', error });
+    }
+};
+
 module.exports = {
     getRecipes,
     getRecipe,
     createRecipe,
     updateRecipe,
     deleteRecipe,
-    upload
+    upload,
+    recipeRating
 }

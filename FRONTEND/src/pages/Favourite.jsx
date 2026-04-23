@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getRecipe, toggleFavourite as toggleFavoriteAPI } from '../api/recipes';
 import assets from '../assets/assets';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import RecipeCard from '../components/RecipeCard';
+
 
 const Favourite = () => {
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -113,39 +117,15 @@ const Favourite = () => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
                     {favoriteRecipes.map((recipe) => (
-                        <div key={recipe._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                            {recipe.image && (
-                                <img
-                                    src={`http://localhost:5000/images/${recipe.image}`}
-                                    alt={recipe.title}
-                                    className="w-full h-40 object-cover"
-                                />
-                            )}
-                            <div className="p-4">
-                                <h2 className="text-lg font-bold text-gray-800 mb-2">{recipe.title}</h2>
-                                <p className="text-sm text-gray-600 mb-3">
-                                    <strong>Time:</strong> {recipe.time}
-                                </p>
-                                <div className="flex items-center gap-2 w-full">
-                                    <Link
-                                        to={`/recipes/${recipe._id}`}
-                                        className="bg-amber-500 text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors w-full text-center text-sm"
-                                    >
-                                        View Recipe
-                                    </Link>
-                                    <button
-                                        onClick={() => handleRemoveFavorite(recipe._id)}
-                                        className="p-2 hover:scale-110 transition-transform"
-                                    >
-                                        <img
-                                            src={assets.addIcon}
-                                            alt="Remove from favorites"
-                                            className="w-8 h-8 object-cover"
-                                        />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <RecipeCard
+                            key={recipe._id}
+                            recipeId={recipe._id}
+                            recipeImage={recipe.image}
+                            recipeTitle={recipe.title}
+                            recipeTime={recipe.time}
+                            recipeRating={recipe.rating}
+                        />
+
                     ))}
                 </div>
             )}

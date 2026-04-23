@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getRecipes, toggleFavourite as toggleFavoriteAPI } from "../api/recipes";
 import assets from "../assets/assets";
+import AvgRating from "../components/avgRating";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import RecipeCard from "../components/RecipeCard";
 
 const Recipes = () => {
-  const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [allRecipes, setAllRecipes] = useState([]);
@@ -12,48 +15,13 @@ const Recipes = () => {
   const recipesPerPage = 8;
   let token = localStorage.getItem("token") || null;
   
-  const handleToggleFavorite = async (id) => {
-    if (!token) {
-      alert("Please login to add favorites");
-      return;
-    }
-
-    try {
-      const response = await toggleFavoriteAPI(id);
-      
-      if (!response || response.error) {
-        console.error("Failed to toggle favorite");
-        return;
-      }
-
-      // Update favorites state
-      setFavourites(response.favorites || []);
-
-      // Update user data in localStorage
-      let user = JSON.parse(localStorage.getItem("user"));
-      if (user) {
-        user.favorites = response.favorites || [];
-        localStorage.setItem("user", JSON.stringify(user));
-      }
-    } catch (error) {
-      console.error("Error toggling favorite:", error);
-    }
-  };
+  
 
   const load = async () => {
     try {
       const data = await getRecipes();
       setRecipes(data);
       setAllRecipes(data);
-
-      // Load user's favorites if logged in
-      if (token) {
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user) {
-          setFavourites(user.favorites || []);
-        }
-      }
-      
       setLoading(false);
     } catch (error) {
       console.error("Error loading recipes:", error);
@@ -105,44 +73,17 @@ const Recipes = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-6xl">
         {recipes && currentRecipes.map((recipe) => (
-          <div key={recipe._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-            {recipe.image && (
-              <img
-                src={`http://localhost:5000/images/${recipe.image}`}
-                alt={recipe.title}
-                className="w-full h-40 object-cover"
-              />
-            )}
-            <div className="p-4">
-              <h2 className="text-lg font-bold text-gray-800 mb-2">{recipe.title}</h2>
-              <p className="text-sm text-gray-600 mb-3">
-                <strong>Time:</strong> {recipe.time}
-              </p>
-              <div className="flex items-center gap-2 w-full">
-                <Link
-                  to={`/recipes/${recipe._id}`}
-                  className="bg-amber-500 text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors w-full text-center text-sm"
-                >
-                  View Recipe
-                </Link>
-                {token && (
-                  <button 
-                    onClick={() => handleToggleFavorite(recipe._id)}
-                    className="p-2 hover:scale-110 transition-transform"
-                  >
-                    <img
-                      src={favourites.includes(recipe._id) ? assets.addIcon : assets.removeIcon}
-                      alt="Favourite Icon"
-                      className="w-8 h-8 object-cover"
-                    />
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
+          <RecipeCard
+            key={recipe._id}
+            recipeId={recipe._id}
+            recipeImage={recipe.image}
+            recipeTitle={recipe.title}
+            recipeTime={recipe.time}
+            recipeRating={recipe.rating}
+          />
         ))}
       </div>
-      <div className="flex gap-4 mt-6 items-center justify-center">
+      <div className="flex gap-4 mt-6 items-center justify-center mb-6">
         <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}

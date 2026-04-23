@@ -78,3 +78,18 @@ export async function getFavourites() {
     });
     return res.json();
 }
+
+export async function rateRecipe(recipeId, rating) {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user ? user._id : null;
+    const res = await await fetch(`${API_URL}/recipe/${recipeId}/rate`, {
+        method: "PUT",
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ rating, userId })
+    });
+    return res.json();
+}
