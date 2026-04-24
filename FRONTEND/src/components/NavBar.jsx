@@ -163,7 +163,7 @@ const NavBar = () => {
           </motion.div>
         )}
         {!token && (
-          <motion.NavLink
+          <NavLink
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.6 }}
@@ -172,7 +172,7 @@ const NavBar = () => {
             onClick={checkLogin}
           >
             {isLogin ? "Login" : "Logout"}
-        </motion.NavLink>)}
+        </NavLink>)}
       </div>
 
       

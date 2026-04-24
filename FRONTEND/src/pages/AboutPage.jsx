@@ -1,13 +1,26 @@
 import React from 'react';
 import assets from '../assets/assets';
+import { motion } from 'framer-motion';
 
 const AboutPage = () => {
     return (
-        <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-8 mt-16 min-h-screen flex flex-col items-center ">
-            <div className="flex justify-center ">
-                <img src={assets.homeLogo} alt="" className="w-100 h-100 rounded-2xl" />
+        <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{  y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5 }}
+            className="container mx-auto px-2 sm:px-6 lg:px-8 py-8 mt-16 min-h-screen flex flex-col items-center ">
+            <div className="flex justify-center  hover:scale-105 transition-transform duration-300 ease-in-out">
+                <motion.img
+                initial={{ x: 0, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}
+                src={assets.homeLogo} alt="" className="w-100 h-100 rounded-2xl" />
             </div>
-            <div className="flex  flex-col mt-8 w-[80%]">
+            <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}
+            className="flex  flex-col mt-8 w-[80%]">
                 <h1 className="text-3xl font-bold  mt-6 mb-4 text-gray-800">About Us</h1>
                 <p className="text-lg text-gray-600  mb-6">
                   Welcome to RuchiKoot – a place where flavors come together!
@@ -27,8 +40,8 @@ const AboutPage = () => {
                 <p className="text-lg text-gray-600  mb-6">
                     Cook. Share. Enjoy.
                 </p>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

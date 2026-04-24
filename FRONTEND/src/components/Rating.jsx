@@ -1,5 +1,6 @@
 import { use, useEffect, useState } from "react";
 import { getRecipe, rateRecipe } from "../api/recipes";
+import { motion } from "framer-motion";
 
 const RatingComponent = ({ recipeId }) => {
   const [rating, setRating] = useState(0);
@@ -54,9 +55,12 @@ const RatingComponent = ({ recipeId }) => {
  return (
       <div className="flex flex-col items-center justify-center  rounded-lg bg-amber-100 p-4 shadow-md">
       <h3 className="text-md font-semibold text-amber-700">Add Your Rating</h3>
-      <div className="flex flex-row space-x-1">
+      <motion.div
+      className="flex flex-row space-x-1">
         {[1, 2, 3, 4, 5].map((star) => (
-          <button
+          <motion.button
+          whileHover={{ scale: 1.2 }}
+          transition={{ duration: 1 }}
             key={star}
             type="button"
             onClick={() => handleRating(star)}
@@ -65,9 +69,9 @@ const RatingComponent = ({ recipeId }) => {
             }`}
           >
             ★
-          </button>
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

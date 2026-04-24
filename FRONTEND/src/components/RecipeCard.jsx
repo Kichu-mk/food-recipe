@@ -5,7 +5,19 @@ import AvgRating from "../components/avgRating";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { toggleFavourite } from "../api/recipes";
+import { motion } from "framer-motion";
 
+const cardVariant = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRating }) => {
     let token = localStorage.getItem("token") || null;
@@ -46,15 +58,20 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
 
   return (
     <>
-      <div
-        key={recipeId}
+      <motion.div
+          key={recipeId}
+          variants={cardVariant}
+          whileHover={{ y: -5, scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
         {recipeImage && (
-          <img
-            src={`http://localhost:5000/images/${recipeImage}`}
+          <motion.img
+            src={`http://localhost:5000/images/${recipeImage}`} 
             alt={recipeTitle}
             className="w-full h-40 object-cover"
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.4 }}
           />
         )}
         <div className="p-4">
@@ -66,11 +83,14 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
               <FontAwesomeIcon icon={faClock} className="text-amber-700" />{" "}
               {recipeTime} Mins
             </p>
-            <div className="text-sm text-gray-600  text-center">
+            <div className="text-sm text-gray-600  text-center h-6">
               <AvgRating id={recipeId} />
             </div>
           </div>
-          <div className="flex items-center gap-2 ">
+          <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.4 }}
+          className="flex items-center gap-2 ">
           <Link
               to={`/recipes/${recipeId}`}
               className="bg-amber-500 w-full text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center"
@@ -78,11 +98,13 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
               View Details
           </Link>
             {token && (
-              <button
+              <motion.button
+              whileHover={{scale: 1.4}}
+              transition={{ duration: 0.4}}
                 onClick={() => handleToggleFavorite(recipeId)}
-                className="p-2 hover:scale-110 transition-transform"
+                className="p-2 cursor-pointer"
               >
-                <img
+                <motion.img
                   src={
                     favourites.includes(recipeId)
                       ? assets.addIcon
@@ -91,11 +113,11 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
                   alt="Favourite Icon"
                   className="w-8 h-8 object-cover"
                 />
-              </button>
+              </motion.button>
             )}
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

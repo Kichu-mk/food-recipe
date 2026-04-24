@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import RecipeCard from "../components/RecipeCard";
 import Loading from "../components/Loading";
+import { motion } from "framer-motion";
+
+
 
 const Recipes = () => {
   const [loading, setLoading] = useState(true);
@@ -59,24 +62,49 @@ const Recipes = () => {
 
   return (
     <div className="min-h-screen mt-20 flex flex-col items-center px-2 sm:px-6 lg:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-6xl sm:pt-3 sm:gap-4">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 text-amber-700 text-center sm:text-left">Cook it. Taste it. Love it.</h1>
-        <div className="flex items-center w-full sm:w-auto justify-center mb-2">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-6xl sm:pt-3 gap-2 sm:gap-4">
+        <motion.h1
+        initial={{ x: -50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}
+        className="text-2xl sm:text-4xl md:text-5xl font-bold mb-6 text-amber-700 text-center sm:text-left">Cook it. Taste it. Love it.</motion.h1>
+        <motion.div
+        initial={{ x: 50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}
+        className="flex items-center w-full sm:w-auto justify-center mb-2">
           <input onChange={(e) => searchRecipes(e.target.value)} type="search" placeholder="Search recipes..." className="border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-1 focus:ring-amber-500" />
-        </div>
+        </motion.div>
         {token && (
-          <Link
+          <motion.div
+          initial={{ x: 50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}>
+            <Link
             to="/recipes/new"
-            className="bg-amber-700 w-full max-sm:w-[75%] sm:w-auto text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center mb-2"
-          >
-            Add your Own
-          </Link>
+            className="bg-amber-700 w-full max-sm:w-3/4 max-sm:mb-5 sm:w-auto text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center mb-2"
+            >
+              Add your Own
+            </Link>
+          </motion.div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-6xl">
-        {recipes && currentRecipes.map((recipe) => (
-          <RecipeCard
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5 }}
+        viewport={{ once: true }}
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-6xl">
+        {recipes && currentRecipes.map((recipe, index) => (
+          <motion.div className="" 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: index * 0.3 }}
+            viewport={{ once: false }}
+            key={index}
+          >
+            <RecipeCard
             key={recipe._id}
             recipeId={recipe._id}
             recipeImage={recipe.image}
@@ -84,9 +112,16 @@ const Recipes = () => {
             recipeTime={recipe.time}
             recipeRating={recipe.rating}
           />
+          </motion.div>
         ))}
-      </div>
-      <div className="flex gap-4 mt-6 items-center justify-center mb-6">
+      </motion.div>
+      {
+        totalPages > 1 && (
+          <motion.div
+      initial={{ y: 30, opacity: 0 }}
+      whileInView={{y: 0, opacity: 1}}
+      transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.1 }}
+      className="flex gap-4 mt-6 items-center justify-center mb-6">
         <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -104,7 +139,9 @@ const Recipes = () => {
         >
           Next
         </button>
-      </div>  
+      </motion.div>  
+        )
+      }
       
 
       {recipes.length === 0 && (

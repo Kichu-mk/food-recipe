@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import RecipeCard from '../components/RecipeCard';
 import Loading from '../components/Loading';
+import { motion } from 'framer-motion';
 
 
 const Favourite = () => {
@@ -26,7 +27,6 @@ const Favourite = () => {
                 return;
             }
 
-            // Fetch full recipe details for each favorite recipe ID
             const recipes = [];
             if (user.favorites && user.favorites.length > 0) {
                 for (const recipeId of user.favorites) {
@@ -61,10 +61,8 @@ const Favourite = () => {
                 return;
             }
             
-            // Remove from local state
             setFavoriteRecipes(favoriteRecipes.filter(recipe => recipe._id !== recipeId));
-            
-            // Update user data with response favorites
+        
             const user = JSON.parse(localStorage.getItem("user"));
             if (user) {
                 user.favorites = response.favorites || [];
@@ -94,14 +92,25 @@ const Favourite = () => {
     return (
         <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-8 mt-16 min-h-screen sm:w-[80%]">
             <div className="flex flex-col sm:flex-row justify-between items-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-amber-700 mb-8">My Favorite Recipes</h1>
+            <motion.h1 
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5 }}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-amber-700 mb-8">My Favorite Recipes</motion.h1>
             {token && (
+                <motion.div
+                initial={{ x: 50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5 }}
+                className="flex items-center gap-2 w-1/2 justify-center sm:justify-end mb-3">   
                 <Link
                     to="/recipes/new"
                     className="bg-amber-700 w-full max-sm:w-[75%] sm:w-auto text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center mb-2"
                 >
                     Add your Own
                 </Link>
+                </motion.div>
             )}
             </div>
             
@@ -116,19 +125,32 @@ const Favourite = () => {
                     </Link>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    {favoriteRecipes.map((recipe) => (
-                        <RecipeCard
-                            key={recipe._id}
-                            recipeId={recipe._id}
-                            recipeImage={recipe.image}
-                            recipeTitle={recipe.title}
-                            recipeTime={recipe.time}
-                            recipeRating={recipe.rating}
-                        />
+                <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                    {favoriteRecipes.map((recipe, index) => (
+                        <motion.div className="" 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: index * 0.3 }}
+                            viewport={{ once: false }}
+                            key={index}
+                        >
+                            <RecipeCard
+                                key={recipe._id}
+                                recipeId={recipe._id}
+                                recipeImage={recipe.image}
+                                recipeTitle={recipe.title}
+                                recipeTime={recipe.time}
+                                recipeRating={recipe.rating}
+                            />
+                        </motion.div>
 
                     ))}
-                </div>
+                </motion.div>
             )}
         </div>
     );

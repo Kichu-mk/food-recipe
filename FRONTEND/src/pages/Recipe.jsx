@@ -12,6 +12,7 @@ import { ChefHat } from "lucide-react";
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
 import BackButton from "../components/BackButton";
+import { motion } from "framer-motion";
 
 
 function Recipe() {
@@ -89,7 +90,12 @@ function Recipe() {
       <BackButton />
       <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl shadow-lg rounded-2xl mb-10 bg-transparent relative z-10">
         <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
-          <div className="flex flex-col justify-center w-full sm:w-1/2 shadow-lg p-6 rounded-2xl bg-amber-50">
+          <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: 0.3 }}
+          viewport={{ once: false }}
+          className="flex flex-col justify-center w-full sm:w-1/2 shadow-lg p-6 rounded-2xl bg-amber-50">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold mb-4 text-amber-700 text-center sm:text-left">{recipe.title}</h1>
             <div className="flex justify-between items-center ">
               <div className="text-base sm:text-lg text-gray-700 mb-6 flex items-center gap-1">
@@ -129,32 +135,49 @@ function Recipe() {
                 <RatingComponent recipeId={recipe._id} />
               </div>
             </div>
-          </div>
-          <div className="w-full sm:w-1/2 ">
-            <img
+          </motion.div>
+          <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: 0.3 }}
+          viewport={{ once: false }}
+          className="w-full sm:w-1/2 ">
+            <motion.img
+             whileHover={{ scale: 1.05 }}
+             transition={{ duration: 0.4 }}
               src={recipe.image ? `http://localhost:5000/images/${recipe.image}` : assets.food1}
               alt="Recipe Image"
               className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-2xl"
             />
-          </div>
+          </motion.div>
         </div>
         <div className="flex  max-sm:flex-col sm:items-start sm:justify-center sm:gap-10">
-        <div className="mt-8 shadow-lg p-6 rounded-2xl bg-amber-50 w-full">
+        <motion.div
+        initial={{ opacity: 0, x: -40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: 0.3 }}
+        viewport={{ once: false }}
+        className="mt-8 shadow-lg p-6 rounded-2xl bg-amber-50 w-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Ingredients</h2>
           <ul className="list-disc pl-5 text-base sm:text-lg text-gray-700">
             {recipe.ingredients.map((ingredient, index) => (
               <li key={index} className="mb-2">{ingredient}</li>
             ))}
           </ul>
-        </div>
-        <div className="mt-8 shadow-lg p-6 rounded-2xl bg-amber-50 w-full">
+        </motion.div>
+        <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: 0.3 }}
+        viewport={{ once: false }}
+        className="mt-8 shadow-lg p-6 rounded-2xl bg-amber-50 w-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-amber-700">Instructions</h2>
           <ol className="list-decimal pl-5 text-base sm:text-lg text-gray-700">
             {recipe.instructions.map((instruction, index) => (
               <li key={index} className="mb-2">{instruction}</li>
             ))}
           </ol>
-        </div>
+        </motion.div>
       </div>
       </div>
     </div>
