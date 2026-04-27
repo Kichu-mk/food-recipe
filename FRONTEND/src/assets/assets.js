@@ -9,6 +9,8 @@ import removeIcon from "./removeIcon.png"
 import login from "./login.png"
 import signup from "./signup.svg"
 import loginbg from "./loginbg.jpg"
+import aboutbg from "./about-bg.png"
+
 
 const assets = {
     logo,
@@ -21,7 +23,8 @@ const assets = {
     removeIcon ,
     login,
     signup,
-    loginbg
+    loginbg,
+    aboutbg
 }
 
 

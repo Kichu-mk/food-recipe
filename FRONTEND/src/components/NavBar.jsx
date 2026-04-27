@@ -19,6 +19,7 @@ const NavBar = () => {
       localStorage.removeItem("user");
       setIsLogin(true);
       window.location.reload();
+      window.location.href = "/";
     } else {
       setIsLogin(true);
     }
@@ -38,9 +39,11 @@ const NavBar = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.4 }}
           className="shrink-0 flex items-center">
-            <img src={assets.logo} alt="Logo" className="h-10 sm:h-12" />
+            <motion.img
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.4 }}
+            src={assets.logo} alt="Logo" className="h-10 sm:h-12" />
           </motion.div>
-          {/* Desktop Menu */}
           <motion.div
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -48,27 +51,27 @@ const NavBar = () => {
             className="hidden md:flex flex-1 items-center justify-center gap-2 rounded-full bg-transparent text-amber-600 py-2 px-4 ">
             <NavLink
               to="/"
-              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+              className="px-4 py-2 hover:bg-amber-200 hover:scale-105 transition-all duration-300 hover:text-amber-700 rounded-full"
             >
               Home
             </NavLink>
             <NavLink
               to="/recipes"
-              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+              className="px-4 py-2 hover:bg-amber-200 hover:scale-105 transition-all duration-300 hover:text-amber-700 rounded-full"
             >
               Recipes
             </NavLink>
             {token && (
               <NavLink
                 to="/favourite"
-                className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+                className="px-4 py-2 hover:bg-amber-200 hover:scale-105 transition-all duration-300 hover:text-amber-700 rounded-full"
               >
                 Favourite
               </NavLink>
             )}
             <NavLink
               to="/about"
-              className="px-4 py-2 hover:bg-amber-200 hover:text-amber-700 rounded-full"
+              className="px-4 py-2 hover:bg-amber-200 hover:scale-105 transition-all duration-300 hover:text-amber-700 rounded-full"
             >
               About
             </NavLink>

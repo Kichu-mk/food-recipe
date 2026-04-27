@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import assets from "../assets/assets";
 import AvgRating from "../components/avgRating";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,6 +22,14 @@ const cardVariant = {
 const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRating }) => {
     let token = localStorage.getItem("token") || null;
     const [favourites, setFavourites] = React.useState([]);
+    const navigate = useNavigate();
+
+  const handleViewRecipe = () => {
+    // Save scroll position before navigating
+    sessionStorage.setItem("recipesScrollY", window.scrollY);
+    console.log("Saved scroll:", window.scrollY); 
+    navigate(`/recipes/${recipeId}`);
+  };
 
 
     const handleToggleFavorite = async (id) => {
@@ -91,12 +99,13 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.4 }}
           className="flex items-center gap-2 ">
-          <Link
-              to={`/recipes/${recipeId}`}
+          <button
+              type="button"
+              onClick={handleViewRecipe}
               className="bg-amber-500 w-full text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center"
             >
               View Details
-          </Link>
+          </button>
             {token && (
               <motion.button
               whileHover={{scale: 1.4}}

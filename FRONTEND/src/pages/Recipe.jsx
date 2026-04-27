@@ -11,7 +11,6 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { ChefHat } from "lucide-react";
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
-import BackButton from "../components/BackButton";
 import { motion } from "framer-motion";
 
 
@@ -87,7 +86,6 @@ function Recipe() {
   return (
     <div className="min-h-screen mt-20 sm:mt-24">
       <AnimatedBackground />
-      <BackButton />
       <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl shadow-lg rounded-2xl mb-10 bg-transparent relative z-10">
         <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
           <motion.div

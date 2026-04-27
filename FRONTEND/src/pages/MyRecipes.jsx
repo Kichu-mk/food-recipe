@@ -7,6 +7,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import AvgRating from '../components/avgRating';
 import { Trash2 } from "lucide-react";
 import Loading from '../components/Loading';
+import { motion } from 'framer-motion';
 
 
 
@@ -49,10 +50,35 @@ const MyRecipes = () => {
     
 
     return (
-        <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-8 mt-20 min-h-screen sm:w-[80%]">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-amber-700 mb-8">My Recipes</h1>
+        <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20}}
+            className="container mx-auto px-2 sm:px-6 lg:px-8 py-8 mt-20 min-h-screen sm:w-[80%]">
+            <div className="flex max-sm:flex-col items-center justify-between">
+             <motion.h1
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5 }}
+                className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-amber-700 mb-4 sm:mb-8">My Recipes
+             </motion.h1>
+             <motion.div
+             whileHover={{ scale: 1.05 }}
+             className="flex items-center justify-center max-sm:w-full">
+                <Link
+                        to="/recipes/new"
+                        className="bg-amber-700 w-full max-sm:w-[75%] sm:w-auto text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors text-center mb-4"
+                    >
+                        Add More Recipe
+                    </Link>
+             </motion.div>
+            </div>
             {myRecipes.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-12">
+                <motion.div
+                initial={{ x: 50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5}}
+                className="flex flex-col items-center justify-center py-12">
                     <p className="text-xl text-gray-500 mb-4">You haven't added any recipes yet!</p>
                     <Link
                         to="/recipes/new"
@@ -60,13 +86,26 @@ const MyRecipes = () => {
                     >
                         Add Recipe
                     </Link>
-                </div>
+                </motion.div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-                    {myRecipes.map((recipe) => (
-                        <div key={recipe._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.8 }}
+                viewport={{ once: true }}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+                    {myRecipes.map((recipe, index) => (
+                        <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: "spring", stiffness: 120, damping: 20, duration: 0.8, delay: index * 0.3 }}
+                        viewport={{ once: false }}
+                        key={recipe._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                             {recipe.image && (
-                                <img
+                                <motion.img
+                                    whileHover={{ scale: 1.05 }}
+                                    transition={{ duration: 0.4 }}
                                     src={`http://localhost:5000/images/${recipe.image}`}
                                     alt={recipe.title}
                                     className="w-full h-40 object-cover"
@@ -83,12 +122,17 @@ const MyRecipes = () => {
                                 </div>
                                 </div>
                                 <div className="flex items-center gap-2 w-full">
-                                    <Link
+                                    <motion.div className="w-full flex justify-center"
+                                     whileHover={{ scale: 1.1 }}
+                                     transition={{ duration: 0.4 }}
+                                     >
+                                        <Link
                                         to={`/recipes/${recipe._id}`}
                                         className="bg-amber-500 text-white px-4 py-2 rounded-full hover:bg-[#f6836b] transition-colors w-full text-center text-sm"
                                     >
                                         View Recipe
                                     </Link>
+                                    </motion.div>
                                     <button 
                                         onClick={() => handleDeleteRecipe(recipe._id)}
                                         className='p-2 hover:scale-110 transition-transform'>
@@ -96,11 +140,11 @@ const MyRecipes = () => {
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             )}
-        </div>
+        </motion.div>
     );
 }
 

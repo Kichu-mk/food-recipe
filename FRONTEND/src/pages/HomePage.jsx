@@ -57,7 +57,10 @@ const HomePage = () => {
            variants={item}
            className="text-base sm:text-lg md:text-xl mb-6 text-gray-600 text-center sm:text-left">Discover delicious recipes and share your own culinary creations with our vibrant community.</motion.p>
           <motion.div className=""
-           variants={item}>
+           variants={item}
+           whileHover={{ scale: 1.05 }}
+           transition={{ duration: 0.4 }}
+           >
             <Link
             to="/recipes"
             className="bg-amber-500 text-white px-6 py-3 rounded-full hover:bg-[#f6836b] transition-colors"

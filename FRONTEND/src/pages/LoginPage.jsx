@@ -5,7 +5,8 @@ import axios from "axios";
 import assets from "../assets/assets";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
+import { motion } from "framer-motion";
+
 
 
 export default function LoginPage() {
@@ -45,25 +46,34 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex max-sm:flex-col justify-center  items-center h-screen w-full bg-[url('/src/assets/loginbg.jpg')] bg-cover bg-center bg-no-repeat sm:gap-10">
-      <div className="absolute top-10 left-0 ">
-        <BackButton />
-      </div>
-      <div className="max-sm:w-full h-2/5 max-sm:h-50 flex justify-center items-center">
+    <motion.div
+    initial={{ opacity: 0}}
+    animate={{ opacity: 1 }}
+    transition={{ type: "spring", stiffness: 120, damping: 20, delay: 0.5, duration: 1}}
+    className="flex max-sm:flex-col justify-center  items-center h-screen w-full bg-[url('/src/assets/loginbg.jpg')] bg-cover bg-center bg-no-repeat sm:gap-10">
+      <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0}}
+      transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1, duration: 1}}
+      className="max-sm:w-full h-2/5 max-sm:h-50 flex justify-center items-center">
         <img
           src={assets.signup}
           alt=""
           className="w-full h-full object-contain"
         />
-      </div>
-      <div className="h-1/2 bg-white shadow-2xl w-96 max-sm:w-90 p-8 rounded-lg flex flex-col justify-center items-center transition duration-500 hover:scale-105 ">
+      </motion.div>
+      <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0}}
+      transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1, duration: 1}}
+      className="h-1/2 bg-white shadow-2xl w-96 max-sm:w-90 p-8 rounded-lg flex flex-col justify-center items-center transition duration-500 hover:scale-105 ">
         <img src={assets.logo} alt="Logo" className="w-40" />
         <h2 className="text-2xl font-bold text-center mb-6 text-[#6c63ff]">
           {isLogin ? "Login" : "Sign Up"}
         </h2>
         <form className="space-y-4" onSubmit={handleOnSubmit}>
           {!isLogin && (
-            <input
+            <input  
               value={name}
               onChange={(e) => setName(e.target.value)}
               type="text"
@@ -110,7 +120,7 @@ export default function LoginPage() {
             ? "Don't have an account? Sign Up"
             : "Already have an account? Login"}
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
