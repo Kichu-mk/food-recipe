@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:5000";
+require('dotenv').config(); 
+
+const API_URL = process.env.REACT_API_URL ||"http://localhost:5000";
 
 export async function getRecipes() {
     const res = await fetch(`${API_URL}/recipe`);
