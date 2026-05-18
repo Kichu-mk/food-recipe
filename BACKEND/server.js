@@ -7,10 +7,9 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(cors({
-    origin: "https://ruchikootu.onrender.com"
+    origin: 'https://ruchikootu-recipes.onrender.com'
 }));
 app.use(express.json());
-// Serve static images
 app.use('/images', express.static('public/images'));
 app.use("/", require('./routes/user'));
 app.use("/recipe", require('./routes/recipe'));
