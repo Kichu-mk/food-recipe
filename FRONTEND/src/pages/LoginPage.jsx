@@ -16,12 +16,13 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     let endpoint = isLogin ? "login" : "signup";
     try {
-      const res = await axios.post(`http://localhost:5000/${endpoint}`, {
+      const res = await axios.post(`${API_URL}/${endpoint}`, {
         name,
         email,
         password,

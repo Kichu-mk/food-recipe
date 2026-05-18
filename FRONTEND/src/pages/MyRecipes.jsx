@@ -15,6 +15,7 @@ const MyRecipes = () => {
     const [myRecipes, setMyRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     let token = localStorage.getItem("token") || null;
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     const handleDeleteRecipe = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this recipe?");
         if (confirmDelete) {
@@ -106,7 +107,7 @@ const MyRecipes = () => {
                                 <motion.img
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ duration: 0.4 }}
-                                    src={`http://localhost:5000/images/${recipe.image}`}
+                                    src={`${API_URL}/images/${recipe.image}`}
                                     alt={recipe.title}
                                     className="w-full h-40 object-cover"
                                 />

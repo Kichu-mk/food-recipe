@@ -20,6 +20,7 @@ const cardVariant = {
 };
 
 const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRating }) => {
+    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     let token = localStorage.getItem("token") || null;
     const [favourites, setFavourites] = React.useState([]);
     const navigate = useNavigate();
@@ -75,7 +76,7 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
       >
         {recipeImage && (
           <motion.img
-            src={`http://localhost:5000/images/${recipeImage}`} 
+            src={`${API_URL}/images/${recipeImage}`} 
             alt={recipeTitle}
             className="w-full h-40 object-cover"
             whileHover={{ scale: 1.1 }}
