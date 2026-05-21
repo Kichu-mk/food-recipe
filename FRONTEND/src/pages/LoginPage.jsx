@@ -6,10 +6,12 @@ import assets from "../assets/assets";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import LoadingBar from "../components/LoadingBar";
 
 
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +22,7 @@ export default function LoginPage() {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     let endpoint = isLogin ? "login" : "signup";
     try {
       const res = await axios.post(`${API_URL}/${endpoint}`, {
@@ -43,6 +46,8 @@ export default function LoginPage() {
     } catch (data) {
       setError(data.response?.data?.message || "An error occurred");
       toast.error("Failed to login");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,10 +109,13 @@ export default function LoginPage() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-[#6c63ff] text-white py-2 rounded-lg hover:bg-blue-800 transition duration-300 hover:scale-105 hover:border-[#6c63ff]"
           >
             {isLogin ? "Login" : "Create Account"}
+            {loading ? 'Processing...' : ''}
           </button>
+          <LoadingBar loading={loading} text="Logging in..." />
         </form>
         {error != "" && (
           <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
