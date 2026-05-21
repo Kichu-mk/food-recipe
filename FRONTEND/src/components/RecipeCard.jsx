@@ -20,7 +20,6 @@ const cardVariant = {
 };
 
 const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRating }) => {
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
     let token = localStorage.getItem("token") || null;
     const [favourites, setFavourites] = React.useState([]);
     const navigate = useNavigate();
