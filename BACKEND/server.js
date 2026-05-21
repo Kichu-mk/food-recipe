@@ -10,7 +10,6 @@ app.use(cors({
     origin: 'https://ruchikootu-recipes.onrender.com'
 }));
 app.use(express.json());
-app.use('/images', express.static('public/images'));
 app.use("/", require('./routes/user'));
 app.use("/recipe", require('./routes/recipe'));
 connectDB();
