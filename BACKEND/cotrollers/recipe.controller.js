@@ -1,17 +1,24 @@
 const Recipe = require('../models/recipe.model');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/images')
-  },
-  filename: function (req, file, cb) {
-    const filename = Date.now() + '-' + file.fieldname
-    cb(null, filename)
-  }
-})
 
-const upload = multer({ storage: storage })
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'recipes',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+  },
+});
+
+const upload = multer({ storage });
 
 const getRecipes = async(req, res) => {
     try {
@@ -37,9 +44,9 @@ const getRecipe = async (req, res) => {
 const createRecipe = async (req, res) => {
     try {
         let { title, ingredients, instructions, time } = req.body;
-        let image = req.file ? req.file.filename : undefined;
+        
+        let image = req.file ? req.file.path : undefined;
 
-        // Ensure ingredients and instructions are arrays
         if (typeof ingredients === "string") {
             ingredients = ingredients.split('\n').filter(line => line.trim() !== '');
         }
@@ -52,7 +59,7 @@ const createRecipe = async (req, res) => {
             ingredients,
             instructions,
             time,
-            image,
+            image,      
             userId: req.userId
         });
 
