@@ -107,7 +107,7 @@ const MyRecipes = () => {
                                 <motion.img
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ duration: 0.4 }}
-                                    src={`${API_URL}/images/${recipe.image}`}
+                                    src={recipe.image}
                                     alt={recipe.title}
                                     className="w-full h-40 object-cover"
                                 />

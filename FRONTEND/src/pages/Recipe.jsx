@@ -21,7 +21,6 @@ function Recipe() {
   const [owner, setOwner] = useState(null);
   const token = localStorage.getItem("token") || null;
   const [favourites, setFavourites] = useState([]);
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
   const handleToggleFavorite = async (id) => {
           if (!token) {
@@ -144,7 +143,7 @@ function Recipe() {
             <motion.img
              whileHover={{ scale: 1.05 }}
              transition={{ duration: 0.4 }}
-              src={recipe.image ? `${API_URL}/images/${recipe.image}` : assets.food1}
+              src={recipe.image || assets.food1}
               alt="Recipe Image"
               className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-2xl"
             />
