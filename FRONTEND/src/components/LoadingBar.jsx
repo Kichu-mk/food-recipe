@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
-const LoadingBar = ({ loading, text = "Please wait..." }) => {
+const LoadingBar = ({ loading, text }) => {
   return (
     <AnimatePresence>
       {loading && (

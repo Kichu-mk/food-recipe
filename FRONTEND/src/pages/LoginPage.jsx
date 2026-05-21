@@ -115,7 +115,7 @@ export default function LoginPage() {
             {isLogin ? "Login" : "Create Account"}
             {loading ? 'Processing...' : ''}
           </button>
-          <LoadingBar loading={loading} text="Logging in..." />
+          <LoadingBar loading={loading} text={isLogin ? "Logging in..." : "Creating account..."} />
         </form>
         {error != "" && (
           <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
