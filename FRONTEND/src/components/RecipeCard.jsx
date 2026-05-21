@@ -76,7 +76,7 @@ const RecipeCard = ({ recipeId, recipeImage, recipeTitle, recipeTime, recipeRati
       >
         {recipeImage && (
           <motion.img
-            src={`${API_URL}/images/${recipeImage}`} 
+            src={recipeImage} 
             alt={recipeTitle}
             className="w-full h-40 object-cover"
             whileHover={{ scale: 1.1 }}
