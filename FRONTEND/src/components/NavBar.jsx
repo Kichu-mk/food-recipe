@@ -99,8 +99,9 @@ const NavBar = () => {
         </div>
       </div>
 
+{/* bg changed here */}
       {sideBar && (
-        <div className="md:hidden bg-white/95 shadow-lg border-t border-amber-100">
+        <div className="md:hidden shadow-lg border-t border-amber-100">
           <div className="flex flex-col items-center py-4 gap-2">
             <NavLink
               to="/"

@@ -78,7 +78,7 @@ function Recipe() {
     }, []);
   
   if (loading) {
-    return <div className="flex justify-center items-center h-screen text-4xl font-bold text-amber-500">
+    return <div className="flex justify-center items-center h-screen text-xl font-bold text-amber-500">
       <Loading text="Loading recipe details..." />
     </div>;
   }
