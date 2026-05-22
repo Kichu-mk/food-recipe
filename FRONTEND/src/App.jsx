@@ -22,6 +22,7 @@ const App = () => {
   return (
     <>
       <Toaster position="top-right"  />
+      <div className="bg-[url('/src/assets/about-bg.png')] bg-cover bg-center bg-fixed min-h-screen">
       {!hideNavBar && (
         <div className="w-full flex justify-center items-center">
           <NavBar />
@@ -30,6 +31,7 @@ const App = () => {
       <main className="w-full">
         <Router />
       </main>
+      </div>
     </>
   );
 }
