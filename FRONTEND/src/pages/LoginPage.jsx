@@ -113,10 +113,9 @@ export default function LoginPage() {
             className="w-full bg-[#6c63ff] text-white py-2 rounded-lg hover:bg-blue-800 transition duration-300 hover:scale-105 hover:border-[#6c63ff]"
           >
             {isLogin ? "Login" : "Create Account"}
-            {loading ? 'Processing...' : ''}
           </button>
-          <LoadingBar loading={loading} text={isLogin ? "Logging in..." : "Creating account..."} />
         </form>
+        <LoadingBar loading={loading} text={isLogin ? "Logging in..." : "Creating account..."} />
         {error != "" && (
           <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
         )}
