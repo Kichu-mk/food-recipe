@@ -84,9 +84,9 @@ function Recipe() {
   }
 
   return (
-    <div className="min-h-screen mt-20 sm:mt-24">
-      <AnimatedBackground />
-      <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl shadow-lg rounded-2xl mb-10 bg-transparent relative z-10">
+    <div className="relative min-h-screen mt-20 sm:mt-24">
+      <AnimatedBackground className="absolute inset-0 z-0" />
+      <div className="relative z-10 container mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-4xl md:max-w-6xl shadow-lg rounded-2xl mb-10 bg-transparent">
         <div className="flex flex-col sm:flex-row items-center sm:justify-center gap-6 md:gap-10">
           <motion.div
           initial={{ opacity: 0, y: -40 }}
