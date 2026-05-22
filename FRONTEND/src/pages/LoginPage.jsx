@@ -25,6 +25,7 @@ export default function LoginPage() {
     if (loading) return;
     let endpoint = isLogin ? "login" : "signup";
     try {
+      setLoading(true);
       const res = await axios.post(`${API_URL}/${endpoint}`, {
         name,
         email,
