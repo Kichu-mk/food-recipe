@@ -41,7 +41,7 @@ const values = [
 const AboutPage = () => {
   return (
     <div
-      className="min-h-screen bg-[url('/src/assets/about-bg.png')] bg-cover bg-center bg-no-repeat"
+      className="min-h-screen"
       style={{ fontFamily: "'Georgia', serif" }}
     >
       {/* Warm overlay for readability without hiding bg */}

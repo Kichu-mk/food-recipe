@@ -87,7 +87,7 @@ const HomePage = () => {
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 120, damping: 20, delay: 1 }}
-        className="w-full h-32 sm:h-48 flex items-end -z-10 inset-0"
+        className="w-full h-32 sm:h-48 flex items-end"
       >
         <img
           src={assets.foodbg}
