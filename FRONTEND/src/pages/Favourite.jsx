@@ -42,7 +42,6 @@ const Favourite = () => {
             }
 
             setFavoriteRecipes(recipes);
-            const user = JSON.parse(localStorage.getItem("user"));
             if (user) {
                 user.favorites = recipes.map(r => r._id);
                 localStorage.setItem("user", JSON.stringify(user));
