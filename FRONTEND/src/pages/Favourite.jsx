@@ -32,7 +32,9 @@ const Favourite = () => {
                 for (const recipeId of user.favorites) {
                     try {
                         const recipe = await getRecipe(recipeId);
-                        recipes.push(recipe);
+                        if (recipe && recipe._id && recipe.title) {
+                            recipes.push(recipe);
+                        } 
                     } catch (err) {
                         console.error(`Error fetching recipe ${recipeId}:`, err);
                     }
@@ -40,6 +42,11 @@ const Favourite = () => {
             }
 
             setFavoriteRecipes(recipes);
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user) {
+                user.favorites = recipes.map(r => r._id);
+                localStorage.setItem("user", JSON.stringify(user));
+            }
             setLoading(false);
         } catch (err) {
             console.error("Error loading favorites:", err);

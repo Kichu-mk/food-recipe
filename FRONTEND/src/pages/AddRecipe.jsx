@@ -40,11 +40,11 @@ const AddRecipe = () => {
         transition={{ type: "spring", stiffness: 120, damping: 20 }}
         className="flex justify-center items-center min-h-screen px-2 sm:px-6 lg:px-8 py-8"
       >
+        <AnimatedBackground />
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-md sm:max-w-lg md:max-w-xl p-4 sm:p-8 rounded-lg shadow-md bg-white"
         >
-          <AnimatedBackground />
           <motion.h1
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
