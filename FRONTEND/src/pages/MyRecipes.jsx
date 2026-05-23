@@ -14,16 +14,16 @@ import LoadingBar from '../components/LoadingBar';
 
 const MyRecipes = () => {
     const [myRecipes, setMyRecipes] = useState([]);
-    const [barLoading, setBarLoading] = useState(false);
+    const [deletingId, setDeletingId] = useState(null);
     const [loading, setLoading] = useState(true);
     let token = localStorage.getItem("token") || null;
     const handleDeleteRecipe = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this recipe?");
         if (confirmDelete) {
-            setBarLoading(true);
+            setDeletingId(id);
             await deleteRecipe(id);
             load();
-            setBarLoading(false);
+            setDeletingId(null);
         }
     }
     const load = async () => {
@@ -139,12 +139,12 @@ const MyRecipes = () => {
                                     </motion.div>
                                     <button 
                                         onClick={() => handleDeleteRecipe(recipe._id)}
-                                        disabled={barLoading}
+                                        disabled={deletingId === recipe._id} 
                                         className='p-2 hover:scale-110 transition-transform'>
                                         <Trash2 size={25} className="text-red-500 cursor-pointer" />
                                     </button>
                                 </div>
-                                <LoadingBar loading={barLoading} text="Deleting recipe..." />
+                                <LoadingBar loading={deletingId === recipe._id} text="Deleting recipe..." />
                             </div>
                         </motion.div>
                     ))}

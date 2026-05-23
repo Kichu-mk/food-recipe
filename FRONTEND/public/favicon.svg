@@ -1,0 +1,79 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer orange circle border -->
+  <circle cx="100" cy="100" r="96" fill="none" stroke="#e07b2a" stroke-width="4"/>
+  <!-- Inner blue circle border -->
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#3a6fa8" stroke-width="2"/>
+  <!-- White background -->
+  <circle cx="100" cy="100" r="85" fill="white"/>
+
+  <!-- Body / apron (blue) -->
+  <ellipse cx="100" cy="148" rx="32" ry="28" fill="#3a6fa8"/>
+  <!-- White shirt -->
+  <ellipse cx="100" cy="138" rx="20" ry="18" fill="white"/>
+  <!-- Neck -->
+  <rect x="93" y="104" width="14" height="16" rx="5" fill="#f5c5a3"/>
+  <!-- Head -->
+  <ellipse cx="100" cy="94" rx="26" ry="27" fill="#f5c5a3"/>
+  <!-- Hair -->
+  <ellipse cx="100" cy="72" rx="26" ry="16" fill="#2b1a0e"/>
+  <ellipse cx="76" cy="88" rx="8" ry="12" fill="#2b1a0e"/>
+  <circle cx="76" cy="98" r="7" fill="#2b1a0e"/>
+
+  <!-- Chef hat base -->
+  <rect x="78" y="55" width="44" height="20" rx="3" fill="white" stroke="#ddd" stroke-width="1"/>
+  <!-- Hat puff -->
+  <ellipse cx="100" cy="50" rx="22" ry="18" fill="white" stroke="#ddd" stroke-width="1"/>
+  <ellipse cx="90" cy="46" rx="13" ry="11" fill="white"/>
+  <ellipse cx="110" cy="46" rx="13" ry="11" fill="white"/>
+  <!-- Leaf on hat -->
+  <ellipse cx="100" cy="38" rx="5" ry="8" fill="#4a9e4a" transform="rotate(-15,100,38)"/>
+  <line x1="100" y1="43" x2="100" y2="36" stroke="#3a7a3a" stroke-width="1"/>
+
+  <!-- Eyes -->
+  <ellipse cx="92" cy="91" rx="3" ry="3.5" fill="#2b1a0e"/>
+  <ellipse cx="108" cy="91" rx="3" ry="3.5" fill="#2b1a0e"/>
+  <circle cx="93.5" cy="89.5" r="1" fill="white"/>
+  <circle cx="109.5" cy="89.5" r="1" fill="white"/>
+  <!-- Cheeks -->
+  <ellipse cx="85" cy="97" rx="5" ry="3" fill="#f0a080" opacity="0.5"/>
+  <ellipse cx="115" cy="97" rx="5" ry="3" fill="#f0a080" opacity="0.5"/>
+  <!-- Smile -->
+  <path d="M91 100 Q100 108 109 100" fill="none" stroke="#c07050" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Arms -->
+  <path d="M68 140 Q55 150 58 165" fill="none" stroke="#f5c5a3" stroke-width="9" stroke-linecap="round"/>
+  <path d="M132 140 Q145 150 140 165" fill="none" stroke="#f5c5a3" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Pot -->
+  <rect x="62" y="158" width="76" height="40" rx="6" fill="#3a6fa8" stroke="#2a5a8a" stroke-width="1.5"/>
+  <rect x="58" y="154" width="84" height="10" rx="5" fill="#e07b2a" stroke="#c06a1a" stroke-width="1"/>
+  <rect x="68" y="197" width="64" height="7" rx="3" fill="#e07b2a"/>
+  <rect x="52" y="160" width="14" height="8" rx="4" fill="#c06a1a"/>
+  <rect x="134" y="160" width="14" height="8" rx="4" fill="#c06a1a"/>
+  <rect x="64" y="160" width="72" height="16" rx="3" fill="#f0a830"/>
+
+  <!-- Steam -->
+  <path d="M85 152 Q82 144 86 136 Q90 128 87 120" fill="none" stroke="#f0c060" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M100 150 Q97 141 101 133 Q105 125 102 117" fill="none" stroke="#f0c060" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M115 152 Q112 144 116 136 Q120 128 117 120" fill="none" stroke="#f0c060" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Ladle -->
+  <line x1="130" y1="148" x2="110" y2="168" stroke="#888" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="109" cy="170" r="6" fill="none" stroke="#888" stroke-width="2.5"/>
+
+  <!-- Decorative leaves -->
+  <ellipse cx="38" cy="80" rx="7" ry="11" fill="#4a9e4a" transform="rotate(-30,38,80)"/>
+  <ellipse cx="162" cy="80" rx="7" ry="11" fill="#4a9e4a" transform="rotate(30,162,80)"/>
+  <ellipse cx="38" cy="125" rx="7" ry="11" fill="#4a9e4a" transform="rotate(30,38,125)"/>
+  <ellipse cx="162" cy="125" rx="7" ry="11" fill="#4a9e4a" transform="rotate(-30,162,125)"/>
+
+  <!-- Fork -->
+  <line x1="26" y1="88" x2="26" y2="115" stroke="#e07b2a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="22" y1="88" x2="22" y2="98" stroke="#e07b2a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="26" y1="88" x2="26" y2="98" stroke="#e07b2a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="30" y1="88" x2="30" y2="98" stroke="#e07b2a" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Spoon -->
+  <line x1="174" y1="95" x2="174" y2="118" stroke="#e07b2a" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="174" cy="90" rx="5" ry="7" fill="none" stroke="#e07b2a" stroke-width="2"/>
+</svg>
